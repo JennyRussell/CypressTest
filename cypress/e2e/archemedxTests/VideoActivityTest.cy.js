@@ -10,6 +10,7 @@ it('Logs In', () => { // tests login portal with given credentials
 
   // since I already watched the video once, it no longer gave me the option to add my name upon login so I just wrote the test 
   // from the point of rewatching the video option
+  // longer timeouts have been added to make sure the site loads before test scripts can be run, as well as for video duration to catch moments as they pop up
 
   it('Plays the video', () => {
     cy.contains('Start At The Beginning', {timeout:20000}).click() // needs data-cy attribute value
@@ -29,14 +30,19 @@ it('Logs In', () => { // tests login portal with given credentials
   })
   
   it('Shows the activity review for user "Jenny" ', () => {
-    cy.contains('Activity Review for Jenny', {timeout: 25000}).should('be.visible')
+    cy.contains('Activity Review for Jenny', {timeout: 25000}).should('be.visible') // needs data-cy attribute value
   })
 
   it('Validates the user completed the activity ', () => {
-    cy.contains('You have completed this Activity', {timeout: 10000}).should('be.visible')
+    cy.contains('You have completed this Activity', {timeout: 10000}).should('be.visible') // needs data-cy attribute value
   })
   
   it('Allow user to revisit the activity', () => {
-    cy.wait(15000)
-    cy.get('.c00474').find('button').contains('Revisit Activity').click({force:true})
+    cy.get('.c00474').find('button').contains('Revisit Activity').click({force:true}) // needs data-cy attribute value to differentiate between the top and bottom button sets
   })
+
+  // note: possible bug found on Review page
+  // Routes for "Revisit Activity" and "Go Home" might be swapped
+  // Selecting "Revisit Activity" takes the user to the same page as shown after login (which I assume is home)
+  // Selecting "Go Home" takes the user directly to the video (which would make more sense when clicking on "revisit activity")
+  // I set the 'Allow user to revisit the activity' test to pass since techically you can still revisit the video from the "home" page
