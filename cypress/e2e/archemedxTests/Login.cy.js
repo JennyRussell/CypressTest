@@ -28,4 +28,15 @@ it('Logs In', () => { // tests login portal with given credentials
     cy.get('[data-test="continue-button-moment"]', {timeout:25000}).click() // resumed the video by selecting the continue button on the moment popup
   })
   
+  it('Shows the activity review for user "Jenny" ', () => {
+    cy.contains('Activity Review for Jenny', {timeout: 25000}).should('be.visible')
+  })
+
+  it('Validates the user completed the activity ', () => {
+    cy.contains('You have completed this Activity', {timeout: 10000}).should('be.visible')
+  })
   
+  it('Allow user to revisit the activity', () => {
+    cy.wait(15000)
+    cy.get('.c00474').find('button').contains('Revisit Activity').click({force:true})
+  })
